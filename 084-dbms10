@@ -1,0 +1,80 @@
+SQL> create table stu11(
+  2  stuid number(5) primary key,
+  3  stuname varchar2(30),
+  4  marks number(3)
+  5  );
+
+Table created.
+
+SQL> insert into stu11 values(101,'ab',85);
+
+1 row created.
+
+SQL> insert into stu11 values(102,'bc',72);
+
+1 row created.
+
+SQL> insert into stu11 values(103,'cd',91);
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> create or replace procedure get_student(
+  2  p_id in number
+  3  )
+  4  is
+  5  v_name stu11.stuname%type;
+  6  v_marks stu11.marks%type;
+  7  begin
+  8  select stuname,marks
+  9  into v_name,v_marks
+ 10  from stu11
+ 11  where stuid=p_id;
+ 12  dbms_output.put_line('student name:'||v_name);
+ 13  dbms_output.put_line('marks:'||v_marks);
+ 14  exception
+ 15  when no_data_found then
+ 16  dbms_output.put_line('student record not found');
+ 17  end;
+ 18  /
+
+Procedure created.
+
+SQL> set serveroutput on;
+SQL> exec get_student(101);
+student name:ab
+marks:85
+
+PL/SQL procedure successfully completed.
+
+SQL> exec get_student(110);
+student record not found
+
+PL/SQL procedure successfully completed.
+
+SQL> create or replace function find_grade
+  2  (
+  3  p_marks number
+  4  )
+  5  v_grade varchar2(2);
+  6  begin
+  7  if p_marks>=90 then
+  8  v_grade:='0';
+  9  elsif p_marks>=80 then
+ 10  v_grade:='A+'
+ 11  elsif p_marks>=60 then
+ 12  v_grade:='B'
+ 13  ;
+ 14  else
+ 15  v_grade:='C';
+ 16  end if;
+ 17  return v_grade;
+ 18  end;
+ 19  /
+
+Warning: Function created with compilation errors.
+
+SQL>
