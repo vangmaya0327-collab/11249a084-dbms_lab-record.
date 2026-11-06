@@ -1,0 +1,137 @@
+SQL> create table customer(
+  2  cust_id number PRIMARY KEY,
+  3  cust_name varchar2(10),
+  4  city varchar2(10),
+  5  ref_id number
+  6  );
+
+Table created.
+
+SQL> create table orders(
+  2  order_id number PRIMARY KEY,
+  3  cust_id number,
+  4  product varchar2(15),
+  5  amount number
+  6  );
+
+Table created.
+
+SQL> desc customer;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUST_ID                                   NOT NULL NUMBER
+ CUST_NAME                                          VARCHAR2(10)
+ CITY                                               VARCHAR2(10)
+ REF_ID                                             NUMBER
+
+SQL> desc orders;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ORDER_ID                                  NOT NULL NUMBER
+ CUST_ID                                            NUMBER
+ PRODUCT                                            VARCHAR2(15)
+ AMOUNT                                             NUMBER
+
+SQL> insert into customer values(1,'julie','derry',NULL);
+
+1 row created.
+
+SQL> insert into customer values(2,'marielle','NY',1);
+
+1 row created.
+
+SQL> insert into customer values(3,'kristi','LA',1);
+
+1 row created.
+
+SQL> insert into customer values(4,'kenny','beijin',2);
+
+1 row created.
+
+SQL> insert into customer values(5,'ellis','kenya',3);
+
+1 row created.
+
+SQL> insert into orders values(101,1,'laptop',89000);
+
+1 row created.
+
+SQL> insert into orders values(102,2,'mobi;e phone',72000);
+
+1 row created.
+
+SQL> insert into orders values(103,3,'watch',23000);
+
+1 row created.
+
+SQL> insert into orders values(104,4,'tv',50000);
+
+1 row created.
+
+SQL> insert into orders values(105,6,'tab',24000);
+
+1 row created.
+
+SQL> select*from customer;
+
+   CUST_ID CUST_NAME  CITY           REF_ID
+---------- ---------- ---------- ----------
+         1 julie      derry
+         2 marielle   NY                  1
+         3 kristi     LA                  1
+         4 kenny      beijin              2
+         5 ellis      kenya               3
+
+SQL> select*from orders;
+
+  ORDER_ID    CUST_ID PRODUCT             AMOUNT
+---------- ---------- --------------- ----------
+       101          1 laptop               89000
+       102          2 mobi;e phone         72000
+       103          3 watch                23000
+       104          4 tv                   50000
+       105          6 tab                  24000
+
+SQL> select c.cust_name,o.product,o.amount from customer c INNER JOIN orders o ON c.cust_id=o.cust_id;
+
+CUST_NAME  PRODUCT             AMOUNT
+---------- --------------- ----------
+julie      laptop               89000
+marielle   mobi;e phone         72000
+kristi     watch                23000
+kenny      tv                   50000
+
+SQL> select c.cust_name,o.product,o.amount from customer c,orders o where c.cust_id=o.cust_id;
+
+CUST_NAME  PRODUCT             AMOUNT
+---------- --------------- ----------
+julie      laptop               89000
+marielle   mobi;e phone         72000
+kristi     watch                23000
+kenny      tv                   50000
+
+SQL> select c.cust_name,o.product,o.amount from customer c FULL OUTER JOIN orders o on c.cust_id=o.cust_id;
+
+CUST_NAME  PRODUCT             AMOUNT
+---------- --------------- ----------
+julie      laptop               89000
+marielle   mobi;e phone         72000
+kristi     watch                23000
+kenny      tv                   50000
+           tab                  24000
+ellis
+
+6 rows selected.
+
+SQL> select c1.cust_name as customer,
+  2  c2.cust_name as reffered_by
+  3  from customer c1
+  4  join customer c2
+  5  on c1.ref_id=c2.cust_id;
+
+CUSTOMER   REFFERED_B
+---------- ----------
+kristi     julie
+marielle   julie
+kenny      marielle
+ellis      kristi
