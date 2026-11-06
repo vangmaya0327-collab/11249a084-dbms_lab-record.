@@ -1,0 +1,178 @@
+SQL> select*from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+UNIV                           TABLE
+STU_MARKS                      TABLE
+STUDENT9                       TABLE
+STUDENT8                       TABLE
+STUDENT7                       TABLE
+STUDENT4                       TABLE
+STUDENT10                      TABLE
+STUDENT                        TABLE
+STU10                          TABLE
+STU1                           TABLE
+ORDERS                         TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+EMP                            TABLE
+DEPT                           TABLE
+DEPARTMENT                     TABLE
+CUSTOMER                       TABLE
+COURSE                         TABLE
+COLLEGE                        TABLE
+
+17 rows selected.
+
+SQL> desc student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REG_NO                                             VARCHAR2(10)
+ NAME                                               CHAR(15)
+ COURSE                                             CHAR(10)
+ DOB                                                DATE
+ YEAR                                               NUMBER(2)
+
+SQL> select*from student;
+
+REG_NO     NAME            COURSE     DOB             YEAR
+---------- --------------- ---------- --------- ----------
+001        likki           ece        12-MAY-06          3
+002        prasu           mech       15-JAN-06          3
+A077       keer          cse        16-JUN-07          3
+A01        ash
+
+SQL> insert into student values('a098','sindhu','cse','15-MAY-07',3);
+
+1 row created.
+
+SQL> select*from student;
+
+REG_NO     NAME            COURSE     DOB             YEAR
+---------- --------------- ---------- --------- ----------
+001        likki           ece        12-MAY-06          3
+002        prasu           mech       15-JAN-06          3
+A077       maya         cse        16-JUN-07          3
+A01        ash
+a098       sindhu          cse        15-MAY-07          3
+
+SQL> create view cse_students as select reg_no,name,year from student where course='cse';
+
+View created.
+
+SQL> select*from cse_students;
+
+REG_NO     NAME                  YEAR
+---------- --------------- ----------
+A077       keer                     3
+a098       sindhu                   3
+
+SQL> create sequence student_sequence start with 1 increment by 1 minvalue 1 maxvalue 100 nocycle nocache;
+
+Sequence created.
+
+
+
+SQL> select student_sequence.nextval from dual;
+
+   NEXTVAL
+----------
+         1
+
+SQL> select student_sequence.nextval from dual;
+
+   NEXTVAL
+----------
+         2
+
+SQL> select student_sequence.nextval from dual;
+
+   NEXTVAL
+----------
+         3
+
+SQL> insert into student values (student_sequence.nextval,'rishi','ece','17-feb-06',4);
+
+1 row created.
+
+SQL> select*from student;
+
+REG_NO     NAME            COURSE     DOB             YEAR
+---------- --------------- ---------- --------- ----------
+001        likki           ece        12-MAY-06          3
+002        prasu           mech       15-JAN-06          3
+A077       keer            cse        16-JUN-07          3
+A01        ash
+a098       sindhu          cse        15-MAY-07          3
+4          rishi           ece        17-FEB-06          4
+
+6 rows selected.
+
+SQL> insert into student values (student_sequence.nextval,'jules','mech','18-mar-05',2);
+
+1 row created.
+
+SQL> select*from student;
+
+REG_NO     NAME            COURSE     DOB             YEAR
+---------- --------------- ---------- --------- ----------
+001        likki           ece        12-MAY-06          3
+002        prasu           mech       15-JAN-06          3
+A077       keer            cse        16-JUN-07          3
+A01        ash
+a098       sindhu          cse        15-MAY-07          3
+4          rishi           ece        17-FEB-06          4
+5          jules           mech       18-MAR-05          2
+
+7 rows selected.
+
+SQL> create index index_name on student(name);
+
+Index created.
+
+SQL> select index_name, table_name from user_indexes where table_name='student';
+
+no rows selected
+
+
+SQL> SELECT index_name, table_name FROM user_indexes WHERE table_name='STUDENT';
+
+INDEX_NAME                     TABLE_NAME
+------------------------------ ------------------------------
+INDEX_NAME                     STUDENT
+
+SQL> INSERT INTO student VALUES ('115', 'KIRAN', 'IT', '14-AUG-05', 2);
+
+1 row created.
+
+SQL> savepoint sp1;
+
+Savepoint created.
+
+SQL> INSERT INTO student VALUES ('116', 'maya', 'CSE', '20-JAN-05', 3);
+
+1 row created.
+
+SQL> rollback to sp1;
+
+Rollback complete.
+
+SQL> select*from student;
+
+REG_NO     NAME            COURSE     DOB             YEAR
+---------- --------------- ---------- --------- ----------
+001        likki           ece        12-MAY-06          3
+002        prasu           mech       15-JAN-06          3
+A077       keer            cse        16-JUN-07          3
+A01        ash
+a098       sindhu          cse        15-MAY-07          3
+4          rishi           ece        17-FEB-06          4
+5          jules           mech       18-MAR-05          2
+115        KIRAN           IT         14-AUG-05          2
+
+8 rows selected.
+
+SQL> commit;
+
+Commit complete.
