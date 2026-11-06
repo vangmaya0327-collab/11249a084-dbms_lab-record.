@@ -1,0 +1,136 @@
+SQL> create table student(
+  2  reg_no varchar(10),
+  3  name char(10),
+  4  course char(10),
+  5  dob date,
+  6  year number(2)
+  7  );
+
+Table created.
+
+SQL> desc student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REG_NO                                             VARCHAR2(10)
+ NAME                                               CHAR(10)
+ COURSE                                             CHAR(10)
+ DOB                                                DATE
+ YEAR                                               NUMBER(2)
+
+SQL> create table student4 as select* from student;
+
+Table created.
+
+SQL> desc student4
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REG_NO                                             VARCHAR2(10)
+ NAME                                               CHAR(10)
+ COURSE                                             CHAR(10)
+ DOB                                                DATE
+ YEAR                                               NUMBER(2)
+
+SQL> create table student5 as select reg_no,name,year from student;
+
+Table created.
+
+SQL> desc student5
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REG_NO                                             VARCHAR2(10)
+ NAME                                               CHAR(10)
+ YEAR                                               NUMBER(2)
+
+SQL> insert into student values ('A077','samhi','cse','16-jun-07',03);
+
+1 row created.
+
+SQL> select*from student;
+
+REG_NO     NAME       COURSE     DOB             YEAR
+---------- ---------- ---------- --------- ----------
+A077       samhi      cse        16-JUN-07          3
+
+SQL> insert into student (reg_no,name) values ('A01','ash');
+
+1 row created.
+
+SQL> select*from student;
+
+REG_NO     NAME       COURSE     DOB             YEAR
+---------- ---------- ---------- --------- ----------
+A077       samhi      cse        16-JUN-07          3
+A01        ash
+
+SQL> create table student6 as select* from student where 3>5;
+
+Table created.
+
+SQL> select*from student6;
+
+no rows selected
+
+SQL> desc student6;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REG_NO                                             VARCHAR2(10)
+ NAME                                               CHAR(10)
+ COURSE                                             CHAR(10)
+ DOB                                                DATE
+ YEAR                                               NUMBER(2)
+
+SQL> alter table student modify name char(15);
+
+Table altered.
+
+SQL> desc student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REG_NO                                             VARCHAR2(10)
+ NAME                                               CHAR(15)
+ COURSE                                             CHAR(10)
+ DOB                                                DATE
+ YEAR                                               NUMBER(2)
+
+SQL> insert into student values ('&reg_no','&name','&course','&dob',&year);
+Enter value for reg_no: 001
+Enter value for name: shiv
+Enter value for course: mech
+Enter value for dob: 12-jan-06
+Enter value for year: 4
+old   1: insert into student values ('&reg_no','&name','&course','&dob',&year)
+new   1: insert into student values ('001','shiv','mech','12-jan-06',4)
+
+1 row created.
+
+SQL> /
+Enter value for reg_no: 002
+Enter value for name: ram
+Enter value for course: cse
+Enter value for dob: 16-feb-99
+Enter value for year: 4
+old   1: insert into student values ('&reg_no','&name','&course','&dob',&year)
+new   1: insert into student values ('002','ram','cse','16-feb-99',4)
+
+1 row created.
+
+SQL> /
+Enter value for reg_no: 003
+Enter value for name: seetha
+Enter value for course: ece
+Enter value for dob: 17-mar-99
+Enter value for year: 4
+old   1: insert into student values ('&reg_no','&name','&course','&dob',&year)
+new   1: insert into student values ('003','sam','ece','17-mar-99',4)
+
+1 row created.
+
+SQL> select*from student;
+
+REG_NO     NAME            COURSE     DOB             YEAR
+---------- --------------- ---------- --------- ----------
+A077       keer            cse        16-JUN-07          3
+A01        ash
+001        shiv            mech       12-JAN-06          4
+002        ram             cse        16-FEB-99          4
+003        seetha          ece        17-MAR-99          4
