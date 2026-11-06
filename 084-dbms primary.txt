@@ -1,0 +1,499 @@
+
+SQL*Plus: Release 11.2.0.1.0 Production on Mon Aug 3 09:17:10 2026
+
+Copyright (c) 1982, 2010, Oracle.  All rights reserved.
+
+Enter user-name: A084@db2021
+Enter password:
+
+Connected to:
+Oracle Database 11g Release 11.2.0.1.0 - Production
+
+SQL> create table studentB(
+  2  stuid int PRIMARY KEY,
+  3  name varchar(10),
+  4  reg_no varchar(10),
+  5  department varchar(10)
+  6  );
+
+Table created.
+
+SQL> desc studentB
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STUID                                     NOT NULL NUMBER(38)
+ NAME                                               VARCHAR2(10)
+ REG_NO                                             VARCHAR2(10)
+ DEPARTMENT                                         VARCHAR2(10)
+
+SQL> insert into studentB values(01, 'vanagmaya','A084','CSE');
+
+1 row created.
+
+SQL> select * from studentB;
+
+     STUID NAME       REG_NO     DEPARTMENT
+---------- ---------- ---------- ----------
+         1 vangamaya    A084       CSE
+
+SQL> insert into studentB values(01, 'brinda','A042','CSE');
+insert into studentB values(01, 'brinda','A042','CSE')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (A092.SYS_C0028415) violated
+
+
+SQL> select* from studentB;
+
+     STUID NAME       REG_NO     DEPARTMENT
+---------- ---------- ---------- ----------
+         1 vangamaya    A084       CSE
+
+SQL> create table course(
+  2  courseid int PRIMARY KEY,
+  3  stuid int,
+  4  FOREIGN KEY (stuid) right parenthesis
+  5  );
+FOREIGN KEY (stuid) right parenthesis
+                    *
+ERROR at line 4:
+ORA-00905: missing keyword
+
+
+SQL> create table course(
+  2  courseid int PRIMARY KEY,
+  3  stuid int,
+  4  FOREIGN KEY (stuid) reference parenthesis
+  5  );
+FOREIGN KEY (stuid) reference parenthesis
+                    *
+ERROR at line 4:
+ORA-00905: missing keyword
+
+
+SQL> create table course(
+  2  courseid int PRIMARY KEY,
+  3  stuid int,
+  4  FOREIGN KEY (stuid) REFERENCE parenthesis
+  5  );
+FOREIGN KEY (stuid) REFERENCE parenthesis
+                    *
+ERROR at line 4:
+ORA-00905: missing keyword
+
+
+SQL> create table course(
+  2  courseid int PRIMARY KEY,
+  3  stuid int,
+  4  FOREIGN KEY (stuid) REFERENCES parenthesis
+  5  );
+FOREIGN KEY (stuid) REFERENCES parenthesis
+                               *
+ERROR at line 4:
+ORA-00942: table or view does not exist
+
+
+SQL> create table course(
+  2  courseid int PRIMARY KEY,
+  3  stuid int,
+  4  FOREIGN KEY (stuid) REFERENCES studentB(stuid)
+  5  );
+
+Table created.
+
+SQL> desc studentB
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STUID                                     NOT NULL NUMBER(38)
+ NAME                                               VARCHAR2(10)
+ REG_NO                                             VARCHAR2(10)
+ DEPARTMENT                                         VARCHAR2(10)
+
+SQL> insert into studentB values('&stuid','&name','&reg_no','&department');
+Enter value for stuid: 2
+Enter value for name: brinda
+Enter value for reg_no: 199
+Enter value for department: civil
+old   1: insert into studentB values('&stuid','&name','&reg_no','&department')
+new   1: insert into studentB values('2','brinda','199','civil')
+
+1 row created.
+
+SQL> /
+Enter value for stuid: 3
+Enter value for name: dinesh
+Enter value for reg_no: 099
+Enter value for department: civil
+old   1: insert into studentB values('&stuid','&name','&reg_no','&department')
+new   1: insert into studentB values('3','dinesh','099','civil')
+
+1 row created.
+
+SQL> /
+Enter value for stuid: 987
+Enter value for name: sam
+Enter value for reg_no: 0987
+Enter value for department: mech
+old   1: insert into studentB values('&stuid','&name','&reg_no','&department')
+new   1: insert into studentB values('987','sam ','0987','mech')
+
+1 row created.
+
+SQL> /
+Enter value for stuid: harika
+Enter value for name: harikaa
+Enter value for reg_no: 359
+Enter value for department: mech
+old   1: insert into studentB values('&stuid','&name','&reg_no','&department')
+new   1: insert into studentB values('harika','harikaa','359','mech')
+insert into studentB values('harika','harikaa','359','mech')
+                            *
+ERROR at line 1:
+ORA-01722: invalid number
+
+
+SQL> desc studentB
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STUID                                     NOT NULL NUMBER(38)
+ NAME                                               VARCHAR2(10)
+ REG_NO                                             VARCHAR2(10)
+ DEPARTMENT                                         VARCHAR2(10)
+
+SQL> select* from studentB;
+
+     STUID NAME       REG_NO     DEPARTMENT
+---------- ---------- ---------- ----------
+         1 keerthi    A092       CSE
+         2 asritha    199        civil
+         3 dinesh     099        civil
+       987 sam        0987       mech
+
+SQL>  insert into studentB values('987','sam ','0987','mech')
+  2  ;
+ insert into studentB values('987','sam ','0987','mech')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (A092.SYS_C0028415) violated
+
+
+SQL> select* from studentB;
+
+     STUID NAME       REG_NO     DEPARTMENT
+---------- ---------- ---------- ----------
+         1 keerthi    A092       CSE
+         2 asritha    199        civil
+         3 dinesh     099        civil
+       987 sam        0987       mech
+
+SQL> insert into course values(1,'
+  2
+SQL> insert into course values(1,'DBMS',1)
+  2
+SQL>
+SQL>
+SQL>
+SQL> insert into course values(1,1);
+
+1 row created.
+
+SQL> select * from studentB;
+
+     STUID NAME       REG_NO     DEPARTMENT
+---------- ---------- ---------- ----------
+         1 keerthi    A092       CSE
+         2 asritha    199        civil
+         3 dinesh     099        civil
+       987 sam        0987       mech
+
+SQL> create table student9
+  2
+SQL> create table student9(
+  2  id number PRIMARY KEY,
+  3  gender char(1) DEFAULT 'F'
+  4  );
+
+Table created.
+
+SQL> alter table student modify department DEFAULT 'CSE';
+alter table student modify department DEFAULT 'CSE'
+                           *
+ERROR at line 1:
+ORA-00904: "DEPARTMENT": invalid identifier
+
+
+SQL> alter table studentB modify department DEFAULT 'CSE';
+
+Table altered.
+
+SQL> insert into students(stuid, name, reg
+  2  _no
+  3  insert into students(stuid, name, reg
+  4
+SQL> insert into students(stuid, name, reg_no) values(110,'cilpa','b098');
+insert into students(stuid, name, reg_no) values(110,'cilpa','b098')
+            *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> insert into student8(stuid, name, reg_no) values(110,'cilpa','b098');
+insert into student8(stuid, name, reg_no) values(110,'cilpa','b098')
+            *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> insert into studentB(stuid, name, reg_no) values(110,'cilpa','b098');
+
+1 row created.
+
+SQL> select* from studentB;
+
+     STUID NAME       REG_NO     DEPARTMENT
+---------- ---------- ---------- ----------
+         1 keerthi    A092       CSE
+         2 asritha    199        civil
+         3 dinesh     099        civil
+       987 sam        0987       mech
+       110 cilpa      b098       CSE
+
+SQL> create table Dept(
+  2  DeptNo Number(5) primary key,
+  3  DeptName varchar(10) Not Null
+  4  );
+
+Table created.
+
+SQL> create table student(
+  2  regno varchar2(10) PRIMARY KEY,
+  3  studentname varchar2(10) NOT NULL,
+  4  age int CHECK (age>18),
+  5  gender char(1) DEFAULT'F',
+  6  email varchar(20) ?UNIQUE,
+  7  deptid int,
+  8  FOREIGN KEY (deptid) REFERENCES dept(deptid)
+  9  DeptName varchar(10) Not
+ 10
+SQL> create table student(
+  2  regno varchar2(10) PRIMARY KEY,
+  3  studentname varchar2(10) NOT NULL,
+  4  age int CHECK (age>18),
+  5  gender char(1) DEFAULT'F',
+  6  email varchar(20) ?UNIQUE,
+  7
+SQL>
+SQL> create table student(
+  2  regno varchar2(10) PRIMARY KEY,
+  3  studentname varchar2(10) NOT NULL,
+  4  age int CHECK (age>18),
+  5  gender char(1) DEFAULT'F',
+  6  email varchar(20) UNIQUE,
+  7  deptid int,
+  8  FOREIGN KEY (deptid) REFERENCES dept(deptid)
+  9  );
+create table student(
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+SQL> create table student8(
+  2  regno varchar2(10) PRIMARY KEY,
+  3  studentname varchar2(10) NOT NULL,
+  4  age int CHECK (age>18),
+  5  gender char(1) DEFAULT'F',
+  6  email varchar(20) UNIQUE,
+  7  deptid int,
+  8  FOREIGN KEY (deptid) REFERENCES dept(deptid)
+  9  );
+FOREIGN KEY (deptid) REFERENCES dept(deptid)
+                                     *
+ERROR at line 8:
+ORA-00904: "DEPTID": invalid identifier
+
+
+SQL> create table student(
+  2  stuid int PRIMARY KEY,
+  3  stuname varchar2(10) NOT NULL,
+  4  age int CHECK (age>18),
+  5  gender char(1) DEFAULT 'F',
+  6  email varchar(20) UNIQUE,
+  7  Deptid int,
+  8  FOREIGN KEY (Deptid) REFERENCES Dept(Deptid)
+  9  );
+create table student(
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+SQL> create table student14(
+  2  stuid int PRIMARY KEY,
+  3  stuname varchar2(10) NOT NULL,
+  4  age int CHECK (age>18),
+  5  gender char(1) DEFAULT 'F',
+  6  email varchar(20) UNIQUE,
+  7  Deptid int,
+  8  FOREIGN KEY (Deptid) REFERENCES Dept(Deptid)
+  9  );
+FOREIGN KEY (Deptid) REFERENCES Dept(Deptid)
+                                     *
+ERROR at line 8:
+ORA-00904: "DEPTID": invalid identifier
+
+
+SQL> create table student15(
+  2  stuid int PRIMARY KEY,
+  3  stuname varchar2(10) NOT NULL,
+  4  age int CHECK (age>18),
+  5  gender char(1) DEFAULT 'F',
+  6  email varchar(20) UNIQUE,
+  7  Deptid int,
+  8  FOREIGN KEY (Deptid) REFERENCES dept(Deptid)
+  9  );
+FOREIGN KEY (Deptid) REFERENCES dept(Deptid)
+                                     *
+ERROR at line 8:
+ORA-00904: "DEPTID": invalid identifier
+
+
+SQL> create table student2(
+  2  stuid int PRIMARY KEY,
+  3  stuname varchar2(10) NOT NULL,
+  4  age int CHECK (age>18),
+  5  gender char(1) DEFAULT 'F',
+  6  email varchar(20) UNIQUE,
+  7  DeptNo int,
+  8  FOREIGN KEY
+  9
+SQL> create table student2(
+  2  stuid int PRIMARY KEY,
+  3  stuname varchar2(10) NOT NULL,
+  4  age int CHECK (age>18),
+  5  gender char(1) DEFAULT 'F',
+  6  email varchar(20) UNIQUE,
+  7  DeptNo int,
+  8  FOREIGN KEY (DeptNo
+  9
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL> create table student2(
+  2  stuid int PRIMARY KEY,
+  3  stuname varchar2(10) NOT NULL,
+  4  age int CHECK (age>18),
+  5  gender char(1) DEFAULT 'F',
+  6  email varchar(20) UNIQUE,
+  7  DeptNo int,
+  8  FOREIGN KEY (DeptNo) REFERENCES Dept(DeptNo)
+  9  );
+create table student2(
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+SQL> create table student34(
+  2  stuid int PRIMARY KEY,
+  3  stuname varchar2(10) NOT NULL,
+  4  age int CHECK (age>18),
+  5  gender char(1) DEFAULT 'F',
+  6  email varchar(20) UNIQUE,
+  7  DeptNo int,
+  8  FOREIGN KEY (DeptNo) REFERENCES Dept(DeptNo)
+  9  );
+
+Table created.
+
+SQL> insert into Dept(DeptNo,DeptName) values (09,'civil');
+
+1 row created.
+
+SQL> select * from dept;
+
+    DEPTNO DEPTNAME
+---------- ----------
+         9 civil
+
+SQL> desc student34;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STUID                                     NOT NULL NUMBER(38)
+ STUNAME                                   NOT NULL VARCHAR2(10)
+ AGE                                                NUMBER(38)
+ GENDER                                             CHAR(1)
+ EMAIL                                              VARCHAR2(20)
+ DEPTNO                                             NUMBER(38)
+
+SQL> insert vlaues into student34
+  2  (stuid, stuname, age, gender, email,deptno)
+  3  VALUES
+  4  ('&stuid','&stuname','&age','&gender','&email','&deptno');
+Enter value for stuid: 1
+Enter value for stuname: keerthi
+Enter value for age: 19
+Enter value for gender: F
+Enter value for email: keerthi@gmail.com
+Enter value for deptno: cse
+old   4: ('&stuid','&stuname','&age','&gender','&email','&deptno')
+new   4: ('1','keerthi','19','F','keerthi@gmail.com','cse')
+insert vlaues into student34
+       *
+ERROR at line 1:
+ORA-00925: missing INTO keyword
+
+
+SQL> insert vlaues student34
+  2  (stuid, stuname, age, gender, email,deptno)
+  3  VALUES
+  4  ('&stuid','&stuname','&age','&gender','&email','&deptno');
+Enter value for stuid: 2
+Enter value for stuname: keer
+Enter value for age: 19
+Enter value for gender: F
+Enter value for email: keer@gmail.com
+Enter value for deptno: cse
+old   4: ('&stuid','&stuname','&age','&gender','&email','&deptno')
+new   4: ('2','keer','19','F','keer@gmail.com','cse')
+insert vlaues student34
+       *
+ERROR at line 1:
+ORA-00925: missing INTO keyword
+
+
+SQL> insert INTO student34
+  2   INTO student34
+  3
+SQL> INSERT INTO student34
+  2  INSERT INTO student34
+  3  (stuid, stuname, age, gender, email, deptno)
+  4  VALUES
+  5  (&stuid, '&stuname', &age, '&gender', '&email', &deptno);
+Enter value for stuid: 4
+Enter value for stuname: shannu
+Enter value for age: 20
+Enter value for gender: m
+Enter value for email: shannu21@gmail.com
+Enter value for deptno: cse
+old   5: (&stuid, '&stuname', &age, '&gender', '&email', &deptno)
+new   5: (4, 'shannu', 20, 'm', 'shannu21@gmail.com', cse)
+INSERT INTO student34
+
