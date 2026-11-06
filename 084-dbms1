@@ -1,0 +1,143 @@
+SQL>
+SQL> create table stu(
+  2  regno varchar2(10),
+  3  name char(10),
+  4  course char(10),
+  5  dob date,
+  6  year number(2)
+  7  );
+
+Table created.
+
+SQL> desc stu;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REGNO                                              VARCHAR2(10)
+ NAME                                               CHAR(10)
+ COURSE                                             CHAR(10)
+ DOB                                                DATE
+ YEAR                                               NUMBER(2)
+
+SQL> create table  stu2 as select* from stu;
+
+Table created.
+
+SQL> desc stu2
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REGNO                                              VARCHAR2(10)
+ NAME                                               CHAR(10)
+ COURSE                                             CHAR(10)
+ DOB                                                DATE
+ YEAR                                               NUMBER(2)
+
+SQL> create table stu3 as select regno,name,course from stu;
+
+Table created.
+
+SQL> desc stu3
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REGNO                                              VARCHAR2(10)
+ NAME                                               CHAR(10)
+ COURSE                                             CHAR(10)
+
+SQL> insert into stu values("a218","vangamya","CSE","27-mar-2007",3);
+insert into stu values("a218","vangmaya","CSE","27-mar-2007",3)
+                                             *
+ERROR at line 1:
+ORA-00984: column not allowed here
+
+
+SQL> insert into stu values('a218','vangmaya','cse','27-mar-2007',3);
+
+1 row created.
+
+SQL> select* from stu
+  2
+SQL> select* from stu;
+
+REGNO      NAME       COURSE     DOB             YEAR
+---------- ---------- ---------- --------- ----------
+a218       vanagamya    cse        27-mar-07          3
+
+SQL> insert into stu(regno,name) values ('a218','devika');
+
+1 row created.
+
+SQL> select* from stu;
+
+REGNO      NAME       COURSE     DOB             YEAR
+---------- ---------- ---------- --------- ----------
+a218       vangamaya     cse        27-mar-07          3
+a218       vangamaya
+
+SQL> create table stu6 as select* from stu where 7>9;
+
+Table created.
+
+SQL> select* from  stu6;
+
+no rows selected
+
+SQL> desc stu6
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REGNO                                              VARCHAR2(10)
+ NAME                                               CHAR(10)
+ COURSE                                             CHAR(10)
+ DOB                                                DATE
+ YEAR                                               NUMBER(2)
+
+SQL> alter table  stu modify name char(15);
+
+Table altered.
+
+SQL> desc stu;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REGNO                                              VARCHAR2(10)
+ NAME                                               CHAR(15)
+ COURSE                                             CHAR(10)
+ DOB                                                DATE
+ YEAR                                               NUMBER(2)
+
+SQL> insert into stu values ('&regno','&name','&course','&dob','&year);
+Enter value for regno: 001
+Enter value for name: maya
+Enter value for course: cse
+Enter value for dob: 27-mar-2007
+Enter value for year: 3
+old   1: insert into stu values ('&regno','&name','&course','&dob','&year)
+new   1: insert into stu values ('001','maya','cse','27-mar-2007','3)
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> /
+Enter value for regno: 084
+Enter value for name: maya
+Enter value for course: dce
+Enter value for dob: 27-mar-2007
+Enter value for year: 3
+old   1: insert into stu values ('&regno','&name','&course','&dob','&year)
+new   1: insert into stu values ('055','maya','dce','25-jul-2005','3)
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> select* from stu;
+
+REGNO      NAME            COURSE     DOB             YEAR
+---------- --------------- ---------- --------- ----------
+a218       maya         cse        24-JAN-06          3
+a218       maya
+
+SQL> select* from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+STU6                           TABLE
+STU3                           TABLE
+STU2                           TABLE
+STU                            TABLE
