@@ -1,0 +1,132 @@
+
+SQL> create table employee(
+  2  emp_id number(5) primary key,
+  3  emp_name varchar2(30),
+  4  salary number(8)
+  5  );
+
+Table created.
+
+SQL> create table emp_audit(
+  2  audit_id number(5),
+  3  emp_id number(5),
+  4  action_performed varchar2(20),
+  5  action_date date
+  6  );
+
+Table created.
+
+SQL> insert into employee values(101,'arjun',35000);
+
+1 row created.
+
+SQL> insert into employee values(102,'bala',40000);
+
+1 row created.
+
+SQL> commit
+  2  ;
+
+Commit complete.
+
+SQL> create or replace trigger tir_emp_insert
+  2  after insert on employee for each row
+  3  begin
+  4  insert into emp_audit values(emp_audit_seq.nextval, :new.emp_id,'insert',sysdate);
+  5  end;
+  6  /
+
+Warning: Trigger created with compilation errors.
+
+SQL> create sequence emp_audit_seq start with 1
+  2  increment by 1;
+
+Sequence created.
+
+SQL> insert into employee values(103,'divya',45000);
+
+1 row created.
+
+SQL> select*from emp_audit;
+
+  AUDIT_ID     EMP_ID ACTION_PERFORMED     ACTION_DA
+---------- ---------- -------------------- ---------
+         1        103 insert               12-OCT-26
+
+SQL> create or replace trigger trg_emp_update
+  2  after update on employee for each row
+  3  begin insert into emp_audit values(emp_audit_seq.nextval, :new.emp_id,'update',sysdate);
+  4  end;
+  5  /
+
+Trigger created.
+
+SQL> update employee set salary=50000 where emp_id=101;
+
+1 row updated.
+
+SQL> select*from emp_audit;
+
+  AUDIT_ID     EMP_ID ACTION_PERFORMED     ACTION_DA
+---------- ---------- -------------------- ---------
+         1        103 insert               12-OCT-26
+         2        101 update               12-OCT-26
+
+SQL> create or replace trigger trg_emp_delete
+  2  after delete on employee for each row
+  3  begin
+  4  insert into emp_audit values(emp_audit.nextval, :old.emp_id,'delete',sysdate);
+  5  end;
+  6  /
+
+Warning: Trigger created with compilation errors.
+
+SQL> delete from employee where emp_id=102;
+delete from employee where emp_id=102
+            *
+ERROR at line 1:
+ORA-04098: trigger 'A077.TRG_EMP_DELETE' is invalid and failed re-validation
+
+
+SQL> delete from employee where emp_id=102;
+delete from employee where emp_id=102
+            *
+ERROR at line 1:
+ORA-04098: trigger 'A077.TRG_EMP_DELETE' is invalid and failed re-validation
+
+
+SQL>
+SQL> SQL> create or replace trigger trg_emp_update
+SP2-0734: unknown command beginning "SQL> creat..." - rest of line ignored.
+SQL>   2  after update on employee for each row
+SQL>   3  begin insert into emp_audit values(emp_audit_seq.nextval, :new.emp_id,'update',sysdate);
+SQL>   4  end;
+SQL>   5  /
+SQL>
+SQL> Trigger created.
+SP2-0734: unknown command beginning "Trigger cr..." - rest of line ignored.
+SQL>
+SQL> SQL> update employee set salary=50000 where emp_id=101;
+SP2-0734: unknown command beginning "SQL> updat..." - rest of line ignored.
+SQL>
+SQL> 1 row updated.
+SQL>
+SQL> SQL> select*from emp_audit;
+SP2-0734: unknown command beginning "SQL> selec..." - rest of line ignored.
+SP2-0044: For a list of known commands enter HELP
+and to leave enter EXIT.
+SQL>
+SQL>   AUDIT_ID     EMP_ID ACTION_PERFORMED     ACTION_DA
+  2  ---------- ---------- -------------------- ---------
+  3           1        103 insert               12-OCT-26
+  4           2        101 update               12-OCT-26
+  5
+SQL> SQL> create or replace trigger trg_emp_delete
+SP2-0734: unknown command beginning "SQL> creat..." - rest of line ignored.
+SQL>   2  after delete on employee for each row
+SQL>   3  begin
+SQL>   4  insert into emp_audit values(emp_audit.nextval, :old.emp_id,'delete',sysdate);
+SQL>   5  end;
+SQL>   6  /
+SQL>
+SQL> Warning: Trigger created with compilation errors.
