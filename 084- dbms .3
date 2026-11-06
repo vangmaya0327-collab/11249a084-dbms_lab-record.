@@ -1,0 +1,167 @@
+
+Enter user-name: A084@db2021
+Enter password:
+
+Connected to:
+Oracle Database 11g Release 11.2.0.1.0 - Production
+
+SQL> SELECT* FROM TAB;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+UNIV                           TABLE
+STU_MARKS                      TABLE
+STUDENT9                       TABLE
+STUDENT8                       TABLE
+STUDENT7                       TABLE
+STUDENT4                       TABLE
+STUDENT10                      TABLE
+STUDENT                        TABLE
+STU10                          TABLE
+STU1                           TABLE
+ORDERS                         TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+EMP                            TABLE
+DEPT                           TABLE
+DEPARTMENT                     TABLE
+CUSTOMER                       TABLE
+CSE_STUDENTS                   VIEW
+COURSE                         TABLE
+COLLEGE                        TABLE
+
+18 rows selected.
+
+SQL> set serveroutput on;
+SQL> declare
+  2  n number;
+  3  begin
+  4  n := &n;
+  5  if n>0 then
+  6  dbms_output.put_line('the number is positive');
+  7  elsif n<0 then
+  8  dbms_output.put_line('the number is negative');
+  9  else
+ 10  dbms_output.put_line('the number is zero');
+ 11  end if;
+ 12  end;
+ 13  /
+Enter value for n: 25
+old   4: n := &n;
+new   4: n := 25;
+the number is positive
+
+PL/SQL procedure successfully completed.
+
+SQL> set serveroutput on;
+SQL> declare
+  2  a number:=100;
+  3  b number:=0;
+  4  c number;
+  5  begin
+  6  c:=a/b;
+  7  dbms_output.put_line('result='||c);
+  8  exception
+  9  when zero_divide then
+ 10  dbms_output.put_line('error: division by zero is not allowed.');
+ 11  end;
+ 12  /
+error: division by zero is not allowed.
+
+PL/SQL procedure successfully completed.
+
+SQL> create table stu(
+  2  stuid number primary key,
+  3  stuname varchar2(30)
+  4  );
+
+Table created.
+
+SQL> insert into stu values(101,'arav');
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> set serveroutput on;
+SQL> declare
+  2  v_name stu.stuname%type;
+  3  begin
+  4  select stuname
+  5  into v_name
+  6  from stu
+  7  where stuid=999;
+  8  dbms_output.put_line(v_name);
+  9  exception
+ 10  when no_data_found then
+ 11  dbms_output.put_line('error:no matching record found.');
+ 12  end;
+ 13  /
+error:no matching record found.
+
+PL/SQL procedure successfully completed.
+
+
+
+SQL> set serveroutput on;
+SQL> declare
+  2  v_name stu.stuname%type;
+  3  begin
+  4  select stuname
+  5  into v_name
+  6  from stu;
+  7  dbms_output.put_line(v_name);
+  8  exception
+  9  when too_many_rows then
+ 10  dbms_output.put_line('error:query returned multiple rows.')
+ 11  ;
+ 12  end;
+ 13  /
+arav
+
+PL/SQL procedure successfully completed.
+
+SQL> set serveroutput on;
+SQL> begin
+  2  insert into stu values(101,'abc');
+  3  exception when dup_val_on_index then
+  4  dbms_output.put_line('error:duplicate values unique constraint.');
+  5  end;
+  6  /
+error:duplicate values unique constraint.
+
+PL/SQL procedure successfully completed.
+
+SQL> set serveroutput on;
+SQL> declare
+  2  v_num number(2);
+  3  begin
+  4  v_num:=12345;
+  5  exception
+  6  when value_error then
+  7  dbms_output.put_line('error:value exceeds variable size.');
+  8  end;
+  9  /
+error:value exceeds variable size.
+
+PL/SQL procedure successfully completed.
+
+
+SQL> set serveroutput on;
+SQL> declare
+  2  v_num number;
+  3  begin
+  4  v_num:=10/0;
+  5  exception
+  6  when others then
+  7  dbms_output.put_line('sqlcode : '|| sqlcode);
+  8  dbms_output.put_line('sqlerrm : '|| sqlerrm);
+  9  end;
+ 10  /
+sqlcode : -1476
+sqlerrm : ORA-01476: divisor is equal to zero
+
+PL/SQL procedure successfully completed.
