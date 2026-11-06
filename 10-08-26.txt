@@ -1,0 +1,161 @@
+
+SQL*Plus: Release 11.2.0.1.0 Production on Mon Aug 10 10:17:52 2026
+
+Copyright (c) 1982, 2010, Oracle.  All rights reserved.
+
+Enter user-name: A084@db2021
+Enter password:
+
+Connected to:
+Oracle Database 11g Release 11.2.0.1.0 - Production
+
+
+SQL> create table campus(
+  2  stuid number,
+  3  name varchar2(10),
+  4  age number,
+  5  email varchar2(30),
+  6  dept varchar2(10)
+  7  );
+
+Table created.
+
+SQL> desc campus
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STUID                                              NUMBER
+ NAME                                               VARCHAR2(10)
+ AGE                                                NUMBER
+ EMAIL                                              VARCHAR2(30)
+ DEPT                                               VARCHAR2(10)
+
+SQL> desc student
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REG_NO                                             VARCHAR2(9)
+ NAME                                               CHAR(15)
+ DEPT                                               CHAR(9)
+ YEAR                                               NUMBER(9)
+
+SQL> alter table campus ADD CONSTRAINT pk_campus PRIMARY KEY(stuid);
+
+Table altered.
+
+SQL> desc campus
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STUID                                     NOT NULL NUMBER
+ NAME                                               VARCHAR2(10)
+ AGE                                                NUMBER
+ EMAIL                                              VARCHAR2(30)
+ DEPT                                               VARCHAR2(10)
+
+SQL> alter table campus ADD CONSTRAINT uq_campus UNIQUE(email);
+
+Table altered.
+
+SQL> desc campus
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STUID                                     NOT NULL NUMBER
+ NAME                                               VARCHAR2(10)
+ AGE                                                NUMBER
+ EMAIL                                              VARCHAR2(30)
+ DEPT                                               VARCHAR2(10)
+
+SQL> alter table campus ADD CONSTRAINT chk_age CHECK(age<=18);
+
+Table altered.
+
+SQL> alter table campus MODIFY dept DEFAULT 'CSE';
+
+Table altered.
+
+SQL> create table deptpartment(
+  2  deptid number,
+  3  deptname varchar2(10)
+  4  );
+
+Table created.
+
+SQL> alter table deptpartment ADD CONSTRAINT pk_deptpartment PRIMARY KEY(deptid);
+
+Table altered.
+
+SQL> alter table campus ADD deptid NUMBER;
+
+Table altered.
+
+SQL> alter table campus ADD CONSTRAINT FK_CAMPUS_DEPT FOREIGN KEY(deptid) REFERENCES deptpartment(deptid);
+
+Table altered.
+
+SQL> insert into dept values(01,'cse');
+
+1 row created.
+
+SQL> insert  into dept values(02,'ECE');
+
+1 row created.
+
+SQL> insert into dept values(03,'cse');
+
+1 row created.
+
+SQL> insert into deptpartment values(01,'CSE');
+
+1 row created.
+
+SQL> insert into deptpartment values(02,'ECE');
+
+1 row created.
+
+SQL> insert into deptpartment values(03,'cse');
+
+1 row created.
+
+SQL> select* from deptpartment;
+
+    DEPTID DEPTNAME
+---------- ----------
+         1 CSE
+         2 ECE
+         3 cse
+
+SQL> insert into campus values(001,'abc',06,'abc@gmail.com','ece',1);
+
+1 row created.
+
+SQL> insert into campus values(002,'def',07,'def@gmail.com','ece',2);
+
+1 row created.
+
+SQL> insert into campus values(003,'ghi',08,'ghi@gmail.com','ece',3);
+
+1 row created.
+
+SQL> select* from deptpartment;
+
+    DEPTID DEPTNAME
+---------- ----------
+         1 CSE
+         2 ECE
+         3 cse
+
+SQL> select * from campus;
+
+     STUID NAME              AGE EMAIL                          DEPT
+---------- ---------- ---------- ------------------------------ ----------
+    DEPTID
+----------
+         1 abc                 6 abc@gmail.com                  ece
+         1
+
+         2 def                 7 def@gmail.com                  ece
+         2
+
+         3 ghi                 8 ghi@gmail.com                  ece
+         3
+
+
+SQL>
