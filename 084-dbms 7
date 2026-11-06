@@ -1,0 +1,215 @@
+Enter user-name: A084@db2021
+Enter password:
+
+Connected to:
+Oracle Database 11g Release 11.2.0.1.0 - Production
+
+SQL> select*from tab
+  2  ;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+UNIV                           TABLE
+STUDENT9                       TABLE
+STUDENT8                       TABLE
+STUDENT7                       TABLE
+STUDENT4                       TABLE
+STUDENT10                      TABLE
+STUDENT                        TABLE
+STU10                          TABLE
+STU1                           TABLE
+ORDERS                         TABLE
+EMP                            TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+DEPT                           TABLE
+DEPARTMENT                     TABLE
+CUSTOMER                       TABLE
+COURSE                         TABLE
+COLLEGE                        TABLE
+
+16 rows selected.
+
+SQL> create table stu_marks(
+  2  stuid number(9) PRIMARY KEY,
+  3  stuname varchar2(20),
+  4  department varchar2(10),
+  5  marks number(3)
+  6  );
+
+Table created.
+
+SQL> desc stu_marks;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STUID                                     NOT NULL NUMBER(9)
+ STUNAME                                            VARCHAR2(20)
+ DEPARTMENT                                         VARCHAR2(10)
+ MARKS                                              NUMBER(3)
+
+SQL> insert into stu_marks values(01,'jim','CSE',91);
+
+1 row created.
+
+SQL> insert into stu_marks values(02,'julie','ECE',52);
+
+1 row created.
+
+SQL> insert into stu_marks values(03,'ethan','IT',75);
+
+1 row created.
+
+SQL> insert into stu_marks values(04,'clara','CSE',67);
+
+1 row created.
+
+SQL> insert into stu_marks values(05,'samhi','AEROSPACE',99);
+
+1 row created.
+
+SQL> select*from stu_marks;
+
+     STUID STUNAME              DEPARTMENT      MARKS
+---------- -------------------- ---------- ----------
+         1 jim                  CSE                98
+         2 julie                ECE                92
+         3 ethan                IT                 75
+         4 clara                CSE                67
+         5 samhi                AEROSPACE          99
+
+TOTAL_STUDENTS
+--------------
+             5
+
+SQL> select sum(marks) as total_marks from stu_marks;
+
+TOTAL_MARKS
+-----------
+        431
+
+SQL> select avg(marks) as average_marks from stu_marks;
+
+AVERAGE_MARKS
+-------------
+         86.2
+
+SQL> select max(marks) as highest_marks from stu_marks;
+
+HIGHEST_MARKS
+-------------
+           99
+
+SQL> select min(marks) as lowest_marks from stu_marks;
+
+LOWEST_MARKS
+------------
+          67
+
+SQL> select department,avg(marks) as avg_marks from stu_marks GROUP BY DEPARTMENT;
+
+DEPARTMENT  AVG_MARKS
+---------- ----------
+IT                 75
+CSE              82.5
+AEROSPACE          99
+ECE                92
+
+SQL> select department,count(*) as total_student from stu_marks group by department;
+
+DEPARTMENT TOTAL_STUDENT
+---------- -------------
+IT                     1
+CSE                    2
+AEROSPACE              1
+ECE                    1
+
+SQL> insert into stu_marks values(06,'charles','IT',77);
+
+1 row created.
+
+SQL> insert into stu_marks values(07,'john cena','ECE',96);
+
+1 row created.
+
+SQL> select department,max(marks) as highest_marks from stu_marks group by department;
+
+DEPARTMENT HIGHEST_MARKS
+---------- -------------
+IT                    77
+CSE                   98
+AEROSPACE             99
+ECE                   96
+
+SQL> select department,stuname,max(marks) as highest_marks from stu_marks group by department,stuname;
+
+DEPARTMENT STUNAME              HIGHEST_MARKS
+---------- -------------------- -------------
+AEROSPACE  keer                            99
+ECE        julie                           92
+CSE        jim                             98
+CSE        clara                           67
+IT         ethan                           75
+ECE        john cena                       96
+IT         charles                         77
+
+7 rows selected.
+
+SQL> select department,avg(marks) as average_marks from stu_marks group by department having avg(marks)>85;
+
+DEPARTMENT AVERAGE_MARKS
+---------- -------------
+AEROSPACE             99
+ECE                   94
+
+SQL> select department,count(*) as total_students from stu_marks group by department having count(*)=1;
+
+DEPARTMENT TOTAL_STUDENTS
+---------- --------------
+AEROSPACE               1
+
+SQL> select department,count(*) as total_students from stu_marks group by department having count(*)>1;
+
+DEPARTMENT TOTAL_STUDENTS
+---------- --------------
+IT                      2
+CSE                     2
+ECE                     2
+
+SQL> select department,count(*) as no_of_students,avg(marks) as avg_marks,max(marks) as highest_marks from stu_marks group by department;
+
+DEPARTMENT NO_OF_STUDENTS  AVG_MARKS HIGHEST_MARKS
+---------- -------------- ---------- -------------
+IT                      2         76            77
+CSE                     2       82.5            98
+AEROSPACE               1         99            99
+ECE                     2         94            96
+
+
+SQL> select department,count(*) as no_of_students,avg(marks) as avg_marks,max(marks) as highest_marks from stu_marks group by department having avg(marks)>80;
+
+DEPARTMENT NO_OF_STUDENTS  AVG_MARKS HIGHEST_MARKS
+---------- -------------- ---------- -------------
+CSE                     2       82.5            98
+AEROSPACE               1         99            99
+ECE                     2         94            96
+
+SQL> select department,count(*) as no_of_students,avg(marks) as avg_marks,max(marks) as highest_marks from stu_marks group by department having avg(marks)<80;
+
+DEPARTMENT NO_OF_STUDENTS  AVG_MARKS HIGHEST_MARKS
+---------- -------------- ---------- -------------
+IT                      2         76            77
+
+SQL> select*from stu_marks;
+
+     STUID STUNAME              DEPARTMENT      MARKS
+---------- -------------------- ---------- ----------
+         1 jim                  CSE                98
+         2 julie                ECE                92
+         3 ethan                IT                 75
+         4 clara                CSE                67
+         5 keer                 AEROSPACE          99
+         6 charles              IT                 77
+         7 john cena            ECE                96
+
+7 rows selected.
